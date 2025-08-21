@@ -223,6 +223,35 @@ footer p {
   .nav-buttons a {
     margin: 5px 10px 0 0;
   }
+}.btn {
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 12px 24px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.demo-btn {
+  background: linear-gradient(135deg, #585f90, #7a80b8);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(88, 95, 144, 0.3);
+}
+
+.demo-btn:hover {
+  background: linear-gradient(135deg, #4a507a, #6c73a8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(88, 95, 144, 0.35);
+}
+
+.demo-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(88, 95, 144, 0.25);
 }
 
 @keyframes fadeIn {
