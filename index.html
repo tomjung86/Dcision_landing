@@ -9,103 +9,130 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="page-wrapper">
-  <header>
-    <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo" />
-    <nav class="nav-buttons">
-      <a href="#" data-modal-target="aboutModal">About</a>
-      <a href="#" data-modal-target="contactModal">Request Demo</a>
-    </nav>
-  </header>
+  <div class="page-wrapper">
+    <header>
+      <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo" />
+      <nav class="nav-buttons">
+        <a href="#" data-modal-target="aboutModal">About</a>
+        <a href="#" data-modal-target="contactModal">Request Demo</a>
+      </nav>
+    </header>
 
-  <!-- About Modal -->
-  <div class="modal" id="aboutModal">
-    <div class="modal-content">
-      <span class="close-btn" data-modal-close>&times;</span>
-      <div class="fs-inner">
-        <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image" />
-        <h2>About Dcision™</h2>
-        <h3 class="subtitle">One trusted verdict — no scrolling, no second-guessing.</h3>
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+      <div class="modal-content">
+        <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
+        <div class="fs-inner">
+          <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image" />
+          <h2>About Dcision™</h2>
+          <h3 class="subtitle">One trusted verdict — no scrolling, no second-guessing.</h3>
 
-        <!-- Section 1 -->
-        <section>
-          <h3>What It Is</h3>
-          <p>
-            Dcision™ is the world’s first decision engine — a new kind of system that helps people choose with confidence.
-            Instead of flooding you with options, reviews, or marketing, it gives you one trusted recommendation, backed by facts and aligned with your values.
-          </p>
-        </section>
+          <section>
+            <h3>What It Is</h3>
+            <p>
+              Dcision™ is the world’s first decision engine — a new kind of system that helps people choose with confidence.
+              Instead of flooding you with options, reviews, or marketing, it gives you one trusted recommendation, backed by facts and aligned with your values.
+            </p>
+          </section>
 
-        <section>
-          <h3>How It Works</h3>
-          <p>
-            At the core is the <strong>TrustGraph™</strong> — a reasoning engine that pulls from verified sources, filters by your preferences, and flags manipulation or vague claims.
-            The result? One clear, explainable answer you can actually trust.
-          </p>
-        </section>
+          <section>
+            <h3>How It Works</h3>
+            <p>
+              At the core is the <strong>TrustGraph™</strong> — a reasoning engine that pulls from verified sources, filters by your preferences, and flags manipulation or vague claims.
+              The result? One clear, explainable answer you can actually trust.
+            </p>
+          </section>
 
-        <section>
-          <h3>Why It Matters</h3>
-          <p>
-            Search results and reviews are broken. AI summaries are vague. Dcision™ is built to replace the noise with clarity — for anyone who’s tired of guessing, digging, or being misled.
-          </p>
-        </section>
+          <section>
+            <h3>Why It Matters</h3>
+            <p>
+              Search results and reviews are broken. AI summaries are vague. Dcision™ is built to replace the noise with clarity — for anyone who’s tired of guessing, digging, or being misled.
+            </p>
+          </section>
 
-        <section>
-          <h3>Status</h3>
-          <p>
-            Dcision™ is currently in development.
-          </p>
-        </section>
+          <section>
+            <h3>Status</h3>
+            <p>
+              Dcision™ is currently in development.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
-  </div>
 
-  <main>
-    <div class="main-content">
-      <img src="img/DcisionLogo.svg" alt="Dcision logo large" class="main-logo">
-      <h1>Cut through the noise. Decide with confidence.</h1>
-      <p><strong>Dcision™</strong> is a new kind of decision engine — built to align with your values, surface verified truth, and deliver one clear answer.</p>
-      <p class="coming-soon">Dcision™ is coming soon..</p>
-    </div>
-  </main>
+    <main>
+      <div class="main-content">
+        <img src="img/DcisionLogo.svg" alt="Dcision logo large" class="main-logo">
+        <h1>Cut through the noise. Decide with confidence.</h1>
+        <p><strong>Dcision™</strong> is a new kind of decision engine — built to align with your values, surface verified truth, and deliver one clear answer.</p>
 
-  <!-- Contact Modal -->
-  <div class="modal" id="contactModal">
-    <div class="modal-content">
-      <span class="close-btn" data-modal-close>&times;</span>
-      <h2>Contact</h2>
-      <form id="contactForm">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required />
+        <!-- Watch Demo Button -->
+        <button class="btn demo-btn" data-modal-target="demoModal">
+          ▶ Watch Demo
+        </button>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
+        <p class="coming-soon">Dcision™ is coming soon..</p>
+      </div>
+    </main>
 
-        <label for="message">Message</label>
-<textarea id="message" name="message" rows="5" required>
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+      <div class="modal-content">
+        <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
+        <h2>Contact</h2>
+        <form id="contactForm">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required>
 Hi, I’d like to request a Dcision™ demo...
-</textarea>
-        <input type="text" name="website" id="website" autocomplete="off" style="display:none;" />
+          </textarea>
+          <input type="text" name="website" id="website" autocomplete="off" style="display:none;" />
 
-        <button type="submit">Send Message</button>
-      </form>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
     </div>
+
+    <!-- Demo Video Modal -->
+    <div class="modal" id="demoModal">
+      <div class="modal-content">
+        <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
+        <h2>Dcision Demo</h2>
+        <video id="dcisionDemoVideo" controls preload="metadata" style="width:100%; height:auto;" poster="img/demo-poster.jpg">
+          <source src="video/dcision_demo.mp4" type="video/mp4">
+          Sorry, your browser doesn’t support embedded videos.
+        </video>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 Tom Schorel. Dcision™ and TrustGraph™ are trademarks. All rights reserved.</p>
+        <p class="image-credit" style="font-size: 9px; opacity: 0.5; margin-top: 4px;">
+          Background image: <a href="https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as-par-17483868/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
+            Google DeepMind / Pexels
+          </a>
+        </p>
+      </div>
+    </footer>
   </div>
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2025 Tom Schorel. Dcision™ and TrustGraph™ are trademarks. All rights reserved.</p>
-      <p class="image-credit" style="font-size: 9px; opacity: 0.5; margin-top: 4px;">
-        Background image: <a href="https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as-par-17483868/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
-          Google DeepMind / Pexels
-        </a>
-      </p>
-    </div>
-  </footer>
-  </div>
-    <script src="scripts/modal.js"></script>
-    <script src="scripts/contact.js"></script>
+  <script src="scripts/modal.js"></script>
+  <script src="scripts/contact.js"></script>
 
+  <!-- Pause video when modal closes -->
+  <script>
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('[data-modal-close]') || e.target.classList.contains('modal')) {
+        const v = document.getElementById('dcisionDemoVideo');
+        if (v && !v.paused) v.pause();
+      }
+    });
+  </script>
 </body>
 </html>
