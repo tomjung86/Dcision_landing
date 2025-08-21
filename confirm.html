@@ -17,7 +17,7 @@
       </nav>
     </header>
 
-    <!-- About Modal, same as your page if you want it available -->
+    <!-- About Modal -->
     <div class="modal" id="aboutModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close>&times;</span>
@@ -46,6 +46,12 @@
         <img src="img/DcisionLogo.svg" alt="Dcision logo large" class="main-logo" style="width:120px; height:auto; margin-bottom:16px;">
         <h1>Thank you for subscribing</h1>
         <p><strong>Your email is confirmed.</strong></p>
+
+        <!-- Watch Demo Button -->
+<button class="btn demo-btn" data-modal-target="demoModal">
+  ▶ Watch Demo
+</button>
+
         <p>We only use your details to keep you updated on Dcision. Your data is confidential and never sold.</p>
 
         <div id="confirm-status" class="p" style="margin-top:16px;"></div>
@@ -76,6 +82,18 @@ Hi, I would like to request a Dcision demo...
       </div>
     </div>
 
+    <!-- Demo Video Modal -->
+    <div class="modal" id="demoModal">
+      <div class="modal-content">
+        <span class="close-btn" data-modal-close>&times;</span>
+        <h2>Dcision Demo</h2>
+        <video id="dcisionDemoVideo" controls preload="metadata" style="width:100%; height:auto;" poster="img/demo-poster.jpg">
+          <source src="video/dcision_demo.mp4" type="video/mp4">
+          Sorry, your browser doesn’t support embedded videos.
+        </video>
+      </div>
+    </div>
+
     <footer>
       <div class="footer-content">
         <p>&copy; 2025 Tom Schorel. Dcision and TrustGraph are trademarks. All rights reserved.</p>
@@ -86,17 +104,25 @@ Hi, I would like to request a Dcision demo...
   <script src="scripts/modal.js"></script>
   <script src="scripts/contact.js"></script>
 
-  <!-- Optional: confirm the token with Supabase RPC. Remove if not needed. -->
+  <!-- Pause video when modal closes -->
+  <script>
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('[data-modal-close]') || e.target.classList.contains('modal')) {
+        const v = document.getElementById('dcisionDemoVideo');
+        if (v && !v.paused) v.pause();
+      }
+    });
+  </script>
+
+  <!-- Confirm token with Supabase -->
   <script>
     (async function () {
       const el = document.getElementById("confirm-status");
       const params = new URLSearchParams(window.location.search);
       const token = params.get("token");
-      if (!token) return; // static thank you is enough
+      if (!token) return;
 
       try {
-        // If you already load supabase-js elsewhere, use that. 
-        // Here we call the RPC directly through REST.
         const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
         const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
 
@@ -119,7 +145,7 @@ Hi, I would like to request a Dcision demo...
         el.textContent = "Your confirmation is recorded. Welcome to the waitlist.";
         el.style.color = "var(--ink-muted)";
       } catch (e) {
-        // Silent failure keeps the page as a simple thank you
+        // silent fail
       }
     })();
   </script>
