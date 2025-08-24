@@ -1,199 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dcision™ — Compliance Engine</title>
 
-  <!-- keep your styles -->
-  <link rel="stylesheet" href="styles/style.css"/>
-  <link rel="stylesheet" href="styles/modal.css"/>
+  <!-- Keep your existing CSS, but we'll add a few overrides below -->
+  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/modal.css" />
 
-  <!-- fonts -->
+  <!-- Brand font (or Avenir Next on-device); fallbacks included -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-  <!-- favicon -->
-  <link rel="icon" href="https://dcision.com.au/img/DcisionLogo.svg" type="image/svg+xml"/>
+  <!-- Favicon per your request -->
+  <link rel="icon" type="image/svg+xml" href="https://dcision.com.au/img/DcisionLogo.svg" />
 
-  <!-- readability & small utilities (minimal, safe to inline) -->
   <style>
+    /* --- Minimal overrides so it's readable without the background image --- */
     :root{
-      --ink:#1f2a44;
-      --ink-2:#3b4670;
-      --bg-card:#ffffff;
-      --tint:#4c5ccf;
-      --tint-2:#3a49a9;
-      --soft:#f1f3f8;
-      --radius:16px;
-      --shadow:0 10px 30px rgba(0,0,0,.15);
+      --ink:#111318;
+      --muted:#5f6775;
+      --brand:#4a56a6;       /* button background */
+      --brand-ink:#1b225a;    /* dark brand text */
+      --surface:#ffffff;
+      --card:#f7f8fb;
+      --ring: rgba(74,86,166,.18);
+      --radius:14px;
+      --shadow:0 6px 24px rgba(0,0,0,.08);
     }
-    body{ color:var(--ink); }
-    .page-wrapper{ position:relative; min-height:100dvh; }
-
-    /* background overlay to boost contrast on all hero text */
-    .page-wrapper::before{
-      content:"";
-      position:fixed; inset:0;
-      background: radial-gradient(1200px 1200px at 50% 20%, rgba(255,255,255,.84) 0%, rgba(255,255,255,.72) 35%, rgba(255,255,255,.60) 55%, rgba(255,255,255,.52) 75%, rgba(255,255,255,.46) 100%);
-      pointer-events:none; z-index:-1;
+    html,body{background:var(--surface); color:var(--ink); font-synthesis-weight:none; text-rendering:optimizeLegibility;}
+    .page-wrapper{max-width:1120px; margin:0 auto; padding:24px;}
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:4px 0 12px;}
+    .header-logo{height:40px; width:auto;}
+    .nav-buttons a{
+      background:#eee; color:var(--ink); padding:10px 16px; border-radius:10px; text-decoration:none; font-weight:600;
+      border:1px solid #e5e7ee; transition:transform .06s ease, background .2s ease;
     }
-
-    header{ backdrop-filter:saturate(140%) blur(6px); }
-    header .nav-buttons a{ background:#ffffffeb; border-radius:12px; padding:.55rem .9rem; font-weight:600; }
-
-    /* hero (business-first) */
-    .main-content{ text-align:center; margin: 0 auto; max-width: 920px; padding: 6rem 1.25rem 2rem; }
-    .main-logo{ width:108px; height:auto; margin:0 auto 1rem; }
-    h1{ font-weight:800; font-size: clamp(28px, 5.4vw, 56px); line-height:1.05; letter-spacing:-.01em; color:var(--ink); text-wrap:balance; }
-    .lead{ font-size: clamp(16px, 2.8vw, 22px); color:var(--ink-2); margin:.85rem auto 1.25rem; max-width: 760px; }
-
-    /* CTA buttons */
-    .btn{ display:inline-flex; align-items:center; gap:.6rem; border:0; border-radius:14px; font-weight:800; cursor:pointer; }
-    .btn.primary{ background:var(--tint); color:#fff; padding:.95rem 1.15rem; box-shadow:var(--shadow); }
-    .btn.primary:hover{ background:var(--tint-2); transform:translateY(-1px); }
-    .btn.secondary{ background:#fff; color:var(--tint); padding:.85rem 1.05rem; border:2px solid var(--tint); }
-    .btn.secondary:hover{ background:var(--soft); }
-
-    .cta-row{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin:1.1rem 0 2rem; }
-    .coming-soon{ opacity:.7; margin-top:.35rem; }
-
-    /* two cards (Business focus + Consumers) */
-    .pillars{ display:grid; gap:16px; grid-template-columns:1fr; max-width:1000px; margin:2rem auto; padding:0 1rem; }
-    .card{ background:var(--bg-card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
-    .card .inner{ padding:22px 18px; }
-    .card h2{ margin:.2rem 0 .35rem; font-size: clamp(20px, 3.2vw, 28px); }
-    .bullets{ margin:.4rem 0 .7rem; padding-left:1.1rem; }
-    .bullets li{ margin:.25rem 0; }
-
-    /* Videos in modals scale well on mobile */
-    video{ border-radius:12px; outline: 1px solid rgba(0,0,0,.06); }
-
-    /* News / blog list (scrollable if long) */
-    #news{ max-width:1000px; margin:2.2rem auto; padding:0 1rem 1.25rem; }
-    #news h3{ font-size: clamp(20px,3vw,26px); margin:0 0 .75rem; }
-    .news-list{ display:grid; gap:14px; }
-    .news-card{ background:#fff; border-radius:14px; box-shadow:var(--shadow); padding:16px 16px 14px; }
-    .news-title{ font-size: clamp(16px,2.8vw,20px); font-weight:800; margin:0 0 .35rem; color:var(--ink); }
-    .news-meta{ font-size:14px; opacity:.75; margin-bottom:.35rem; }
-    .news-desc{ margin:0; color:var(--ink-2); }
-    .news-card a{ color:inherit; text-decoration:none; display:block; }
-    .news-card a:focus-visible{ outline:2px solid var(--tint); border-radius:10px; }
-
-    /* Make sure footer never hides the last card */
-    footer{ margin-top:2rem; }
-
-    /* Tiny helpers */
-    .badge{ font-size:12px; padding:.25rem .5rem; border-radius:999px; background:#eef0ff; color:var(--tint-2); font-weight:700; }
-
-    /* mobile layout niceties */
-    @media (min-width: 820px){
-      .pillars{ grid-template-columns: 1.3fr .9fr; }
-      .card .inner{ padding:26px 22px; }
+    .nav-buttons a:active{transform:scale(.98);}
+    .main-content{display:grid; gap:20px; padding:48px 0 16px;}
+    .main-logo{height:88px; width:auto; margin:0 auto;}
+    h1{font-size: clamp(28px, 4.4vw, 52px); line-height:1.08; letter-spacing:-.02em; text-align:center; color:var(--brand-ink); margin:8px 0;}
+    .lead{max-width:860px; margin:0 auto; text-align:center; color:var(--muted); font-size:clamp(16px,2.7vw,20px);}
+    .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:8px;}
+    .btn{
+      appearance:none; border:0; border-radius:12px; padding:14px 18px; font-weight:700; cursor:pointer;
+      background:var(--brand); color:#fff; box-shadow:0 4px 14px var(--ring);
+    }
+    .btn.secondary{background:#fff; color:var(--brand-ink); border:1px solid #e5e7ee;}
+    .btn .play{
+      display:inline-grid; place-items:center; width:1.2em; height:1.2em; border-radius:999px; background:#fff; color:var(--brand);
+      margin-right:.5em; font-size:1.1em; line-height:1;
+    }
+    /* Value props */
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:16px; margin-top:28px;}
+    .card{
+      background:var(--card); border:1px solid #e9ebf2; border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);
+    }
+    .kicker{font-size:13px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);}
+    .h2{font-size: clamp(22px,3.6vw,32px); margin:2px 0 10px; color:var(--ink);}
+    .p{color:var(--muted); font-size:16px; line-height:1.55;}
+    .check{font-weight:700; color:var(--brand-ink);}
+    /* Section headings */
+    section h2{font-size: clamp(22px,3.3vw,28px); margin:6px 0 12px; color:var(--brand-ink);}
+    /* Blog list */
+    .blog{margin-top:30px;}
+    .blog-list{display:grid; gap:14px;}
+    .blog-item{background:#fff; border:1px solid #e9ebf2; border-radius:12px; padding:16px; box-shadow:var(--shadow);}
+    .blog-item a{color:var(--brand-ink); font-weight:800; text-decoration:none;}
+    .blog-item a:hover{text-decoration:underline;}
+    .blog-meta{color:var(--muted); font-size:14px; margin:4px 0 6px;}
+    .blog-desc{color:var(--muted);}
+    /* About modal content readability */
+    .fs-inner, .modal-content{color:var(--ink);}
+    /* Footer */
+    footer{margin:42px 0 12px;}
+    .footer-content{color:var(--muted); font-size:14px; text-align:center;}
+    .image-credit a{color:inherit; text-decoration:underline;}
+    /* Mobile niceties */
+    @media (max-width:600px){
+      .page-wrapper{padding:18px;}
+      .nav-buttons{display:flex; gap:10px;}
+      .nav-buttons a{padding:9px 13px; font-weight:600;}
+      .card{padding:16px;}
     }
   </style>
 </head>
 <body>
   <div class="page-wrapper">
+    <!-- Header -->
     <header>
-      <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo"/>
+      <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo" />
       <nav class="nav-buttons">
-        <a href="#" data-modal-target="aboutModal">About</a>
-        <a href="#" data-modal-target="contactModal">Request Demo</a>
+        <a href="#" data-modal-target="aboutModal" aria-label="Open About">About</a>
+        <a href="#" data-modal-target="contactModal" aria-label="Open Contact">Request Demo</a>
       </nav>
     </header>
 
-    <!-- About Modal (updated to speak to business, still mentions consumers) -->
-    <div class="modal" id="aboutModal">
-      <div class="modal-content">
+    <!-- About Modal (kept but reworded to speak to business; survey as button) -->
+    <div class="modal" id="aboutModal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
         <div class="fs-inner">
-          <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image"/>
-          <h2>About Dcision™</h2>
-          <h3 class="subtitle">A compliance‑aware decision engine that reduces risk and rework.</h3>
+          <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image" />
+          <h2 id="aboutTitle">About Dcision™</h2>
+          <h3 class="subtitle">The Compliance Engine that prevents expensive surprises.</h3>
 
           <section>
-            <h3>What it is</h3>
+            <h3>What It Is</h3>
             <p>
-              Dcision™ is a decision engine built on the <strong>TrustGraph™</strong>. For businesses, it acts as a
-              <strong>Compliance Engine</strong> that checks claims, flags missing evidence, and generates an explainable verdict you can ship with.
-              For consumers, it delivers one trusted recommendation — aligned to their values — so brands can win on truth, not noise.
+              Dcision™ Compliance Engine analyzes product claims and documentation, detects red flags, and maps requirements against standards. Teams get a single, explainable verdict with a “Why this?” trail—before audits do.
             </p>
           </section>
 
           <section>
-            <h3>Why businesses use it</h3>
-            <ul class="bullets">
-              <li>Cut compliance cycle time and cost with automated claim checks &amp; red‑flag detection.</li>
-              <li>Prevent post‑launch withdrawals and fines with explainable “Why this?” evidence packs.</li>
-              <li>Ship faster with confidence — and earn trust with regulators and customers.</li>
-            </ul>
+            <h3>Why It Matters</h3>
+            <p>
+              Late-stage compliance failures are costly: product withdrawals, relabelling, fines, and lost brand trust. Dcision™ reduces review cycles and rework by catching vague or non‑compliant claims early and showing exactly what to fix.
+            </p>
           </section>
 
           <section>
             <h3>Status</h3>
-            <p>Dcision™ is in active development with pilots forming. If you’re an enterprise or marketplace, request a demo to explore a fit.</p>
+            <p>Dcision™ is in development with pilots forming now.</p>
+          </section>
+
+          <section style="margin-top:18px;">
+            <h3>Consumers</h3>
+            <p>Consumers are fed up with noise and vague claims; Dcision™ is also being shaped for them. Want to help guide it?</p>
+            <p>
+              <a class="btn secondary" href="https://survey.dcision.com.au/" target="_blank" rel="noopener noreferrer">Take the consumer survey</a>
+            </p>
           </section>
         </div>
       </div>
     </div>
 
+    <!-- MAIN -->
     <main>
-      <div class="main-content">
-        <img src="img/DcisionLogo.svg" alt="Dcision logo" class="main-logo">
+      <div class="main-content" role="main">
+        <img src="img/DcisionLogo.svg" alt="Dcision logo large" class="main-logo">
         <h1>Ship products without compliance surprises.</h1>
-        <p class="lead">The Dcision™ Compliance Engine reviews product claims, sources and certifications, then returns one <em>explainable</em> verdict. Reduce audit risk, rework, and removals — before they happen.</p>
+        <p class="lead">
+          The Dcision™ Compliance Engine flags risky claims, maps requirements, and generates one clear, explainable verdict—cutting rework, shortening review cycles, and preventing withdrawals or fines.
+        </p>
 
         <div class="cta-row">
-          <button class="btn primary" data-modal-target="businessVideo">
-            <span>▶</span> Watch Overview
+          <!-- Business overview video -->
+          <button class="btn" data-modal-target="businessVideoModal" aria-label="Watch Business Overview">
+            <span class="play">▶</span> Watch Overview
           </button>
+
+          <!-- Open the same contact modal you already wired -->
           <a class="btn secondary" href="#" data-modal-target="contactModal">Request a Demo</a>
         </div>
 
-        <!-- business value card + consumer strip -->
-        <section class="pillars">
-          <article class="card">
-            <div class="inner">
-              <span class="badge">For Product, Legal &amp; QA</span>
-              <h2>Compliance Engine — what you get</h2>
-              <ul class="bullets">
-                <li><strong>Claim Checker:</strong> scans packs, pages &amp; submissions for vague or non‑compliant claims.</li>
-                <li><strong>Verified sources:</strong> maps to standards and certifications you rely on.</li>
-                <li><strong>Explainable verdict:</strong> “Why this?” trace you can share with approvers.</li>
-                <li><strong>Red‑flag alerts:</strong> greenwashing language, missing disclosures, risky urgency.</li>
-              </ul>
-              <div class="cta-row" style="justify-content:flex-start">
-                <a class="btn primary" data-modal-target="contactModal">Book a discovery call</a>
-              </div>
-            </div>
-          </article>
+        <!-- Quick proof points -->
+        <div class="grid" style="grid-template-columns:repeat(12,1fr);">
+          <div class="card" style="grid-column: span 4;">
+            <div class="kicker">Cut cost</div>
+            <div class="h2">Prevent late rework</div>
+            <p class="p">Catch vague language and documentation gaps early to avoid relabelling, repack, or pull-backs.</p>
+          </div>
+          <div class="card" style="grid-column: span 4;">
+            <div class="kicker">Move faster</div>
+            <div class="h2">Shorter review cycles</div>
+            <p class="p">One explainable verdict with a traceable “Why this?”—so product, legal, and QA align quickly.</p>
+          </div>
+          <div class="card" style="grid-column: span 4;">
+            <div class="kicker">Stay trusted</div>
+            <div class="h2">Fewer compliance surprises</div>
+            <p class="p">Badge logic highlights risks before audits do—protecting launches and brand equity.</p>
+          </div>
+        </div>
 
-          <article class="card">
-            <div class="inner">
-              <span class="badge">Consumers</span>
-              <h2>People are fed up with noise</h2>
-              <p>We’re also building a consumer experience that gives one trusted, value‑aligned answer.</p>
-              <div class="cta-row" style="justify-content:flex-start">
-                <button class="btn secondary" data-modal-target="consumerVideo">▶ Watch Consumer Demo</button>
-                <a class="btn secondary" href="https://survey.dcision.com.au/" target="_blank" rel="noopener">Take the 60‑sec survey</a>
-              </div>
-            </div>
-          </article>
-        </section>
-
-        <!-- Recent news / blog (fully scrollable, add items in JS below) -->
-        <section id="news" aria-label="Recent compliance headlines">
-          <h3>Recent compliance headlines</h3>
-          <div class="news-list" id="newsList">
-            <!-- cards injected by script -->
+        <!-- Secondary consumer mention + video -->
+        <section class="card" style="margin-top:22px;">
+          <h2>Built for clarity. Loved by consumers.</h2>
+          <p class="p">Dcision™ began with one promise: one honest recommendation, not more noise. That same engine now helps teams ship compliant products customers can trust.</p>
+          <div class="cta-row" style="justify-content:flex-start;">
+            <button class="btn secondary" data-modal-target="consumerVideoModal">
+              <span class="play">▶</span> Watch Consumer Demo
+            </button>
+            <a class="btn" href="https://survey.dcision.com.au/" target="_blank" rel="noopener noreferrer">Take the consumer survey</a>
           </div>
         </section>
 
-        <p class="coming-soon">Dcision™ is coming soon..</p>
+        <!-- Blog / Compliance headlines -->
+        <section class="blog">
+          <h2>Recent compliance headlines</h2>
+          <div class="blog-list" id="blogList">
+            <!-- Example 1: the ABC item you provided -->
+            <article class="blog-item">
+              <a href="https://www.abc.net.au/news/2025-08-22/ultraviolette-sunscreen-ineffective-testing-product-withdrawn/105685104" target="_blank" rel="noopener noreferrer">
+                Ultraviolette sunscreen withdrawn after testing shows it was ineffective
+              </a>
+              <div class="blog-meta">ABC News (Australia) · 22 Aug 2025</div>
+              <p class="blog-desc">Example of post‑launch product withdrawal following compliance testing.</p>
+            </article>
+
+            <!-- Drop in more stories here by adding <article> blocks like above -->
+            <!-- Example placeholder: -->
+            <article class="blog-item">
+              <a href="#" aria-disabled="true">Add your next headline…</a>
+              <div class="blog-meta">Source · Date</div>
+              <p class="blog-desc">Short one‑line description of the compliance event.</p>
+            </article>
+          </div>
+        </section>
       </div>
     </main>
 
-    <!-- Contact Modal (unchanged, as requested) -->
+    <!-- Contact Modal (LEFT EXACTLY AS YOU HAD IT) -->
     <div class="modal" id="contactModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
@@ -206,45 +223,33 @@
           <input type="email" id="email" name="email" required />
 
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required>
-Hi, I’d like to request a Dcision™ demo...
-          </textarea>
+          <textarea id="message" name="message" rows="5" required>Hi, I’d like to request a Dcision™ demo...</textarea>
           <input type="text" name="website" id="website" autocomplete="off" style="display:none;" />
+
           <button type="submit">Send Message</button>
         </form>
       </div>
     </div>
 
-    <!-- Modals: videos -->
-    <div class="modal" id="businessVideo">
+    <!-- Business Video Modal -->
+    <div class="modal" id="businessVideoModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
-        <h2>Compliance Engine — Overview</h2>
-        <video id="videoBusiness" controls preload="metadata" style="width:100%;height:auto;" poster="img/demo-poster.jpg">
-          <source src="video/dcision_business.mp4" type="video/mp4"/>
+        <h2>Dcision Compliance — Overview</h2>
+        <video id="businessVideo" controls preload="metadata" style="width:100%;height:auto;">
+          <source src="video/dcision_business.mp4" type="video/mp4">
           Sorry, your browser doesn’t support embedded videos.
         </video>
       </div>
     </div>
 
-    <div class="modal" id="consumerVideo">
+    <!-- Consumer Video Modal -->
+    <div class="modal" id="consumerVideoModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
-        <h2>Dcision — Consumer Demo</h2>
-        <video id="videoConsumer" controls preload="metadata" style="width:100%;height:auto;" poster="img/demo-poster.jpg">
-          <source src="video/dcision_consumer.mp4" type="video/mp4"/>
-          Sorry, your browser doesn’t support embedded videos.
-        </video>
-      </div>
-    </div>
-
-    <!-- Original demo modal kept for backward compat (optional) -->
-    <div class="modal" id="demoModal">
-      <div class="modal-content">
-        <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
-        <h2>Dcision Demo</h2>
-        <video id="dcisionDemoVideo" controls preload="metadata" style="width:100%; height:auto;" poster="img/demo-poster.jpg">
-          <source src="video/dcision_demo.mp4" type="video/mp4">
+        <h2>Dcision Consumer Demo</h2>
+        <video id="consumerVideo" controls preload="metadata" style="width:100%;height:auto;">
+          <source src="video/dcision_consumer.mp4" type="video/mp4">
           Sorry, your browser doesn’t support embedded videos.
         </video>
       </div>
@@ -253,62 +258,27 @@ Hi, I’d like to request a Dcision™ demo...
     <footer>
       <div class="footer-content">
         <p>&copy; 2025 Tom Schorel. Dcision™ and TrustGraph™ are trademarks. All rights reserved.</p>
-        <p class="image-credit" style="font-size:9px;opacity:.6;margin-top:4px;">
-          Background image:
-          <a href="https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as-par-17483868/"
-             target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Google DeepMind / Pexels</a>
+        <p class="image-credit" style="font-size: 9px; opacity: 0.6; margin-top: 4px;">
+          Background image removed for clarity. Brand assets © Dcision™.
         </p>
       </div>
     </footer>
   </div>
 
-  <!-- your existing JS -->
+  <!-- Your existing scripts -->
   <script src="scripts/modal.js"></script>
   <script src="scripts/contact.js"></script>
 
-  <!-- Pause videos when any modal closes -->
+  <!-- Pause videos when any modal closes (kept) -->
   <script>
     document.addEventListener('click', (e) => {
       if (e.target.matches('[data-modal-close]') || e.target.classList.contains('modal')) {
-        ['dcisionDemoVideo','videoBusiness','videoConsumer'].forEach(id=>{
-          const v=document.getElementById(id);
-          if(v && !v.paused) v.pause();
+        ['businessVideo','consumerVideo','dcisionDemoVideo'].forEach(id=>{
+          const v = document.getElementById(id);
+          if (v && !v.paused) v.pause();
         });
       }
     });
-  </script>
-
-  <!-- Minimal blog loader; add items to the array below -->
-  <script>
-    const news = [
-      {
-        title: "Ultraviolette sunscreen withdrawn after testing shows it was ineffective",
-        outlet: "ABC News (Australia)",
-        date: "22 Aug 2025",
-        desc: "Example of a product withdrawal after compliance testing.",
-        url: "https://www.abc.net.au/news/2025-08-22/ultraviolette-sunscreen-ineffective-testing-product-withdrawn/105685104"
-      }
-      // To add more items, push more objects with: title, outlet, date, desc, url
-      // { title:"...", outlet:"...", date:"...", desc:"...", url:"https://..." }
-    ];
-
-    const list = document.getElementById('newsList');
-    function renderNews(){
-      list.innerHTML = '';
-      news.forEach(item=>{
-        const card = document.createElement('article');
-        card.className='news-card';
-        card.innerHTML = `
-          <a href="${item.url}" target="_blank" rel="noopener">
-            <h4 class="news-title">${item.title}</h4>
-            <div class="news-meta">${item.outlet} · ${item.date}</div>
-            <p class="news-desc">${item.desc}</p>
-          </a>
-        `;
-        list.appendChild(card);
-      });
-    }
-    renderNews();
   </script>
 </body>
 </html>
