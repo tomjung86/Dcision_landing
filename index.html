@@ -1,218 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Dcision™ — Compliance Engine</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="https://dcision.com.au/img/DcisionLogo.svg">
+  <!-- keep your styles -->
+  <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="stylesheet" href="styles/modal.css"/>
 
-  <!-- Existing styles (unchanged) -->
-  <link rel="stylesheet" href="styles/style.css" />
-  <link rel="stylesheet" href="styles/modal.css" />
-
-  <!-- Font -->
+  <!-- fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-  <!-- Business-first readability overrides (index-only, safe to remove anytime) -->
+  <!-- favicon -->
+  <link rel="icon" href="https://dcision.com.au/img/DcisionLogo.svg" type="image/svg+xml"/>
+
+  <!-- readability & small utilities (minimal, safe to inline) -->
   <style>
     :root{
-      --brand:#4a5bb3;      /* button bg */
-      --brand-ink:#ffffff;  /* button text */
-      --ink:#182033;        /* text */
-      --ink-soft:#5a6788;   /* secondary */
-      --card:#ffffff;
-      --veil:rgba(0,0,0,.38);
+      --ink:#1f2a44;
+      --ink-2:#3b4670;
+      --bg-card:#ffffff;
+      --tint:#4c5ccf;
+      --tint-2:#3a49a9;
+      --soft:#f1f3f8;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.15);
     }
-    body{font-family:"Poppins","Avenir Next",-apple-system,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink)}
-    header .nav-buttons a{font-weight:600}
-    /* HERO: make text readable on mobiles over the background image */
-    .hero{
-      position:relative;
-      border-radius:16px;
-      overflow:hidden;
-      margin-top:16px;
-      padding: clamp(24px, 4vw, 56px) clamp(20px, 4vw, 56px);
-      backdrop-filter: saturate(140%) blur(0px);
+    body{ color:var(--ink); }
+    .page-wrapper{ position:relative; min-height:100dvh; }
+
+    /* background overlay to boost contrast on all hero text */
+    .page-wrapper::before{
+      content:"";
+      position:fixed; inset:0;
+      background: radial-gradient(1200px 1200px at 50% 20%, rgba(255,255,255,.84) 0%, rgba(255,255,255,.72) 35%, rgba(255,255,255,.60) 55%, rgba(255,255,255,.52) 75%, rgba(255,255,255,.46) 100%);
+      pointer-events:none; z-index:-1;
     }
-    .hero-veil{
-      position:absolute; inset:0;
-      background: radial-gradient(120% 120% at 50% 0%, var(--veil) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.45) 100%);
-      pointer-events:none;
-    }
-    .hero > *{position:relative; z-index:1}
-    .hero h1{
-      color:#fff; line-height:1.08; margin:0 0 12px;
-      font-size: clamp(28px, 5.6vw, 56px);
-      text-wrap:balance;
-      text-shadow: 0 2px 12px rgba(0,0,0,.35);
-    }
-    .hero p.lead{
-      color:#e9ecff; margin:0 0 20px;
-      font-size: clamp(16px, 2.7vw, 20px);
-      line-height:1.45;
-      text-shadow: 0 2px 10px rgba(0,0,0,.25);
-      max-width: 64ch;
-    }
-    .cta-row{display:flex; gap:12px; flex-wrap:wrap}
-    .btn{
-      display:inline-flex; align-items:center; gap:.6em;
-      border:0; border-radius:12px; padding:.9em 1.2em;
-      background:var(--brand); color:var(--brand-ink);
-      font-weight:700; cursor:pointer; text-decoration:none;
-      box-shadow: 0 8px 24px rgba(74,91,179,.28);
-      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
-    }
-    .btn.secondary{background:#fff; color:var(--brand); box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    .btn:hover{transform:translateY(-1px); box-shadow:0 10px 28px rgba(74,91,179,.34)}
-    .btn:active{transform:translateY(0)}
-    .btn .play{font-size:1.2em}
-    /* quick sections */
-    .section{max-width:1100px;margin:40px auto 0;padding:0 16px}
-    .pill{display:inline-block;padding:.45em .8em;border-radius:999px;background:rgba(74,91,179,.08);color:#3a478f;font-weight:600;font-size:.9rem}
-    .grid{display:grid;gap:16px}
-    @media (min-width:800px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
-    .card{background:var(--card);border-radius:14px;padding:18px 18px 16px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    .card h3{margin:4px 0 6px}
-    .card p{margin:0;color:var(--ink-soft)}
-    /* news list */
-    .news-list{display:grid;gap:12px;margin-top:10px}
-    .news-item{background:#fff;border-radius:12px;padding:12px 14px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
-    .news-item a{font-weight:700;text-decoration:none;color:#2d3a7a}
-    .news-item p{margin:6px 0 0;color:var(--ink-soft);font-size:.95rem}
-    /* consumer strip */
-    .consumer-strip{background:rgba(255,255,255,.8);backdrop-filter:saturate(120%) blur(4px);border-radius:14px;padding:16px}
-    .consumer-strip p{margin:0 0 10px}
-    /* Keep your existing layout spacing tidy on phones */
-    @media (max-width:420px){
-      header .nav-buttons a{padding:.6em .9em}
-      .btn{width:100%;justify-content:center}
+
+    header{ backdrop-filter:saturate(140%) blur(6px); }
+    header .nav-buttons a{ background:#ffffffeb; border-radius:12px; padding:.55rem .9rem; font-weight:600; }
+
+    /* hero (business-first) */
+    .main-content{ text-align:center; margin: 0 auto; max-width: 920px; padding: 6rem 1.25rem 2rem; }
+    .main-logo{ width:108px; height:auto; margin:0 auto 1rem; }
+    h1{ font-weight:800; font-size: clamp(28px, 5.4vw, 56px); line-height:1.05; letter-spacing:-.01em; color:var(--ink); text-wrap:balance; }
+    .lead{ font-size: clamp(16px, 2.8vw, 22px); color:var(--ink-2); margin:.85rem auto 1.25rem; max-width: 760px; }
+
+    /* CTA buttons */
+    .btn{ display:inline-flex; align-items:center; gap:.6rem; border:0; border-radius:14px; font-weight:800; cursor:pointer; }
+    .btn.primary{ background:var(--tint); color:#fff; padding:.95rem 1.15rem; box-shadow:var(--shadow); }
+    .btn.primary:hover{ background:var(--tint-2); transform:translateY(-1px); }
+    .btn.secondary{ background:#fff; color:var(--tint); padding:.85rem 1.05rem; border:2px solid var(--tint); }
+    .btn.secondary:hover{ background:var(--soft); }
+
+    .cta-row{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin:1.1rem 0 2rem; }
+    .coming-soon{ opacity:.7; margin-top:.35rem; }
+
+    /* two cards (Business focus + Consumers) */
+    .pillars{ display:grid; gap:16px; grid-template-columns:1fr; max-width:1000px; margin:2rem auto; padding:0 1rem; }
+    .card{ background:var(--bg-card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card .inner{ padding:22px 18px; }
+    .card h2{ margin:.2rem 0 .35rem; font-size: clamp(20px, 3.2vw, 28px); }
+    .bullets{ margin:.4rem 0 .7rem; padding-left:1.1rem; }
+    .bullets li{ margin:.25rem 0; }
+
+    /* Videos in modals scale well on mobile */
+    video{ border-radius:12px; outline: 1px solid rgba(0,0,0,.06); }
+
+    /* News / blog list (scrollable if long) */
+    #news{ max-width:1000px; margin:2.2rem auto; padding:0 1rem 1.25rem; }
+    #news h3{ font-size: clamp(20px,3vw,26px); margin:0 0 .75rem; }
+    .news-list{ display:grid; gap:14px; }
+    .news-card{ background:#fff; border-radius:14px; box-shadow:var(--shadow); padding:16px 16px 14px; }
+    .news-title{ font-size: clamp(16px,2.8vw,20px); font-weight:800; margin:0 0 .35rem; color:var(--ink); }
+    .news-meta{ font-size:14px; opacity:.75; margin-bottom:.35rem; }
+    .news-desc{ margin:0; color:var(--ink-2); }
+    .news-card a{ color:inherit; text-decoration:none; display:block; }
+    .news-card a:focus-visible{ outline:2px solid var(--tint); border-radius:10px; }
+
+    /* Make sure footer never hides the last card */
+    footer{ margin-top:2rem; }
+
+    /* Tiny helpers */
+    .badge{ font-size:12px; padding:.25rem .5rem; border-radius:999px; background:#eef0ff; color:var(--tint-2); font-weight:700; }
+
+    /* mobile layout niceties */
+    @media (min-width: 820px){
+      .pillars{ grid-template-columns: 1.3fr .9fr; }
+      .card .inner{ padding:26px 22px; }
     }
   </style>
-
-  <!-- Open Graph (nice shares) -->
-  <meta property="og:title" content="Dcision™ — Compliance Engine" />
-  <meta property="og:description" content="Ship products without compliance surprises. Auto-scan claims, flag red flags, generate audit-ready evidence." />
-  <meta property="og:image" content="img/DcisionLogo.svg" />
 </head>
-
 <body>
   <div class="page-wrapper">
     <header>
-      <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo" />
+      <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="header-logo"/>
       <nav class="nav-buttons">
         <a href="#" data-modal-target="aboutModal">About</a>
         <a href="#" data-modal-target="contactModal">Request Demo</a>
       </nav>
     </header>
 
-    <!-- HERO -->
-    <main class="section">
-      <div class="hero">
-        <div class="hero-veil" aria-hidden="true"></div>
-        <img src="img/DcisionLogo.svg" alt="" class="main-logo" style="width:84px;height:auto;opacity:.95;margin-bottom:10px">
-        <h1>Ship products without compliance surprises.</h1>
-        <p class="lead">
-          <strong>Dcision™ Compliance Engine</strong> helps product & marketing teams get copy and claims right the first time.
-          Scan product pages and pack text, catch risky language and missing evidence, and export audit‑ready reports.
-        </p>
-        <div class="cta-row">
-          <button class="btn" data-modal-target="businessVideoModal"><span class="play">▶</span> Watch Overview</button>
-          <a class="btn secondary" href="#" data-modal-target="contactModal">Request a Demo</a>
-        </div>
-      </div>
-    </main>
-
-    <!-- Value props (short + clear) -->
-    <section class="section grid cols-3" aria-label="Business value">
-      <div class="card">
-        <span class="pill">Reduce risk</span>
-        <h3>Prevent takedowns & fines</h3>
-        <p>Catch vague, misleading or non‑compliant claims before launch. Flag missing certifications and evidence.</p>
-      </div>
-      <div class="card">
-        <span class="pill">Speed</span>
-        <h3>Accelerate approvals</h3>
-        <p>Give legal a clean draft: structured “Why this is safe” notes and evidence packs cut back‑and‑forth.</p>
-      </div>
-      <div class="card">
-        <span class="pill">Savings</span>
-        <h3>Lower compliance cost</h3>
-        <p>Fewer reprints, fewer relists, fewer campaign delays. Protect margin with right‑first‑time claims.</p>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section class="section grid cols-3" aria-label="How it works">
-      <div class="card">
-        <span class="pill">1</span>
-        <h3>Drop your copy</h3>
-        <p>Paste packaging text or a URL. Choose the regions you care about.</p>
-      </div>
-      <div class="card">
-        <span class="pill">2</span>
-        <h3>We scan & explain</h3>
-        <p>Claim dissection, red‑flag detection, missing proofs — all mapped to standards.</p>
-      </div>
-      <div class="card">
-        <span class="pill">3</span>
-        <h3>Export evidence</h3>
-        <p>One click to an audit‑ready PDF you can share with legal, buyers, or regulators.</p>
-      </div>
-    </section>
-
-    <!-- Consumer mention + survey -->
-    <section class="section">
-      <div class="consumer-strip">
-        <strong>Also for consumers.</strong>
-        <p>People are fed up with vague claims and fake reviews. We’re building Dcision™ to give one clear, explainable verdict for everyday choices.</p>
-        <a class="btn" href="https://survey.dcision.com.au/" target="_blank" rel="noopener">Take the Consumer Survey</a>
-        <button class="btn secondary" data-modal-target="demoModal" style="margin-left:8px"><span class="play">▶</span> Watch Consumer Demo</button>
-      </div>
-    </section>
-
-    <!-- Recent compliance news / blog -->
-    <section class="section" id="news">
-      <h2 style="margin:0 0 8px">Recent compliance headlines</h2>
-      <p style="margin:0 0 10px; color:var(--ink-soft)">Real examples of costly compliance. We track these so your team doesn’t learn the hard way.</p>
-      <div class="news-list" id="newsList"></div>
-    </section>
-
-    <!-- About Modal (now speaks to business & consumers) -->
+    <!-- About Modal (updated to speak to business, still mentions consumers) -->
     <div class="modal" id="aboutModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
         <div class="fs-inner">
-          <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image" />
+          <img src="img/DcisionLogo.svg" alt="Dcision Logo" class="profile-image"/>
           <h2>About Dcision™</h2>
-          <h3 class="subtitle">A decision engine for truth‑aligned choices.</h3>
+          <h3 class="subtitle">A compliance‑aware decision engine that reduces risk and rework.</h3>
 
           <section>
             <h3>What it is</h3>
             <p>
-              Dcision™ is a new kind of decision system. For businesses, it’s a <strong>compliance engine</strong> that scans claims, flags risk and assembles evidence.
-              For consumers, it delivers <strong>one trusted verdict</strong> backed by verified sources and personal values.
+              Dcision™ is a decision engine built on the <strong>TrustGraph™</strong>. For businesses, it acts as a
+              <strong>Compliance Engine</strong> that checks claims, flags missing evidence, and generates an explainable verdict you can ship with.
+              For consumers, it delivers one trusted recommendation — aligned to their values — so brands can win on truth, not noise.
             </p>
           </section>
 
           <section>
-            <h3>How it works</h3>
-            <p>
-              Powered by the <strong>TrustGraph™</strong>, Dcision checks product language, certifications and disclosures, then explains <em>why</em> something is safe to ship — or not.
-              Outputs are transparent and audit‑ready.
-            </p>
+            <h3>Why businesses use it</h3>
+            <ul class="bullets">
+              <li>Cut compliance cycle time and cost with automated claim checks &amp; red‑flag detection.</li>
+              <li>Prevent post‑launch withdrawals and fines with explainable “Why this?” evidence packs.</li>
+              <li>Ship faster with confidence — and earn trust with regulators and customers.</li>
+            </ul>
           </section>
 
           <section>
             <h3>Status</h3>
-            <p>In active development with pilots forming. If you’re a product or compliance lead, <a href="#" data-modal-target="contactModal">request a demo</a>.</p>
+            <p>Dcision™ is in active development with pilots forming. If you’re an enterprise or marketplace, request a demo to explore a fit.</p>
           </section>
         </div>
       </div>
     </div>
 
-    <!-- Contact Modal (UNCHANGED markup so your handler keeps working) -->
+    <main>
+      <div class="main-content">
+        <img src="img/DcisionLogo.svg" alt="Dcision logo" class="main-logo">
+        <h1>Ship products without compliance surprises.</h1>
+        <p class="lead">The Dcision™ Compliance Engine reviews product claims, sources and certifications, then returns one <em>explainable</em> verdict. Reduce audit risk, rework, and removals — before they happen.</p>
+
+        <div class="cta-row">
+          <button class="btn primary" data-modal-target="businessVideo">
+            <span>▶</span> Watch Overview
+          </button>
+          <a class="btn secondary" href="#" data-modal-target="contactModal">Request a Demo</a>
+        </div>
+
+        <!-- business value card + consumer strip -->
+        <section class="pillars">
+          <article class="card">
+            <div class="inner">
+              <span class="badge">For Product, Legal &amp; QA</span>
+              <h2>Compliance Engine — what you get</h2>
+              <ul class="bullets">
+                <li><strong>Claim Checker:</strong> scans packs, pages &amp; submissions for vague or non‑compliant claims.</li>
+                <li><strong>Verified sources:</strong> maps to standards and certifications you rely on.</li>
+                <li><strong>Explainable verdict:</strong> “Why this?” trace you can share with approvers.</li>
+                <li><strong>Red‑flag alerts:</strong> greenwashing language, missing disclosures, risky urgency.</li>
+              </ul>
+              <div class="cta-row" style="justify-content:flex-start">
+                <a class="btn primary" data-modal-target="contactModal">Book a discovery call</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="inner">
+              <span class="badge">Consumers</span>
+              <h2>People are fed up with noise</h2>
+              <p>We’re also building a consumer experience that gives one trusted, value‑aligned answer.</p>
+              <div class="cta-row" style="justify-content:flex-start">
+                <button class="btn secondary" data-modal-target="consumerVideo">▶ Watch Consumer Demo</button>
+                <a class="btn secondary" href="https://survey.dcision.com.au/" target="_blank" rel="noopener">Take the 60‑sec survey</a>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Recent news / blog (fully scrollable, add items in JS below) -->
+        <section id="news" aria-label="Recent compliance headlines">
+          <h3>Recent compliance headlines</h3>
+          <div class="news-list" id="newsList">
+            <!-- cards injected by script -->
+          </div>
+        </section>
+
+        <p class="coming-soon">Dcision™ is coming soon..</p>
+      </div>
+    </main>
+
+    <!-- Contact Modal (unchanged, as requested) -->
     <div class="modal" id="contactModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
@@ -229,25 +210,35 @@
 Hi, I’d like to request a Dcision™ demo...
           </textarea>
           <input type="text" name="website" id="website" autocomplete="off" style="display:none;" />
-
           <button type="submit">Send Message</button>
         </form>
       </div>
     </div>
 
-    <!-- Business Overview Video Modal -->
-    <div class="modal" id="businessVideoModal">
+    <!-- Modals: videos -->
+    <div class="modal" id="businessVideo">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
-        <h2>Dcision — Compliance Overview</h2>
-        <video id="dcisionBusinessVideo" controls preload="metadata" style="width:100%; height:auto;" poster="img/demo-poster.jpg">
-          <source src="video/dcision_business.mp4" type="video/mp4">
+        <h2>Compliance Engine — Overview</h2>
+        <video id="videoBusiness" controls preload="metadata" style="width:100%;height:auto;" poster="img/demo-poster.jpg">
+          <source src="video/dcision_business.mp4" type="video/mp4"/>
           Sorry, your browser doesn’t support embedded videos.
         </video>
       </div>
     </div>
 
-    <!-- Consumer Demo Video Modal (kept from your original) -->
+    <div class="modal" id="consumerVideo">
+      <div class="modal-content">
+        <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
+        <h2>Dcision — Consumer Demo</h2>
+        <video id="videoConsumer" controls preload="metadata" style="width:100%;height:auto;" poster="img/demo-poster.jpg">
+          <source src="video/dcision_consumer.mp4" type="video/mp4"/>
+          Sorry, your browser doesn’t support embedded videos.
+        </video>
+      </div>
+    </div>
+
+    <!-- Original demo modal kept for backward compat (optional) -->
     <div class="modal" id="demoModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
@@ -262,58 +253,62 @@ Hi, I’d like to request a Dcision™ demo...
     <footer>
       <div class="footer-content">
         <p>&copy; 2025 Tom Schorel. Dcision™ and TrustGraph™ are trademarks. All rights reserved.</p>
-        <p class="image-credit" style="font-size: 9px; opacity: 0.5; margin-top: 4px;">
-          Background image: <a href="https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as-par-17483868/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
-            Google DeepMind / Pexels
-          </a>
+        <p class="image-credit" style="font-size:9px;opacity:.6;margin-top:4px;">
+          Background image:
+          <a href="https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as-par-17483868/"
+             target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Google DeepMind / Pexels</a>
         </p>
       </div>
     </footer>
   </div>
 
-  <!-- Your existing scripts -->
+  <!-- your existing JS -->
   <script src="scripts/modal.js"></script>
   <script src="scripts/contact.js"></script>
 
-  <!-- Pause any playing videos when a modal closes or backdrop clicked -->
+  <!-- Pause videos when any modal closes -->
   <script>
-    function pauseAllVideos(){
-      ['dcisionBusinessVideo','dcisionDemoVideo'].forEach(id=>{
-        const v=document.getElementById(id);
-        if(v && !v.paused) v.pause();
-      });
-    }
-    document.addEventListener('click',(e)=>{
-      if (e.target.matches('[data-modal-close]') || e.target.classList.contains('modal')) pauseAllVideos();
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('[data-modal-close]') || e.target.classList.contains('modal')) {
+        ['dcisionDemoVideo','videoBusiness','videoConsumer'].forEach(id=>{
+          const v=document.getElementById(id);
+          if(v && !v.paused) v.pause();
+        });
+      }
     });
   </script>
 
-  <!-- Tiny “blog” you can edit inline (add more items to posts[]) -->
+  <!-- Minimal blog loader; add items to the array below -->
   <script>
-    const posts = [
+    const news = [
       {
         title: "Ultraviolette sunscreen withdrawn after testing shows it was ineffective",
-        source: "ABC News (Australia)",
+        outlet: "ABC News (Australia)",
         date: "22 Aug 2025",
-        url: "https://www.abc.net.au/news/2025-08-22/ultraviolette-sunscreen-ineffective-testing-product-withdrawn/105685104",
-        note: "Example of product withdrawal after compliance testing."
+        desc: "Example of a product withdrawal after compliance testing.",
+        url: "https://www.abc.net.au/news/2025-08-22/ultraviolette-sunscreen-ineffective-testing-product-withdrawn/105685104"
       }
-      // Add more like:
-      // { title:"[Headline]", source:"Publisher", date:"DD Mon YYYY", url:"https://...", note:"Short line on what happened." }
+      // To add more items, push more objects with: title, outlet, date, desc, url
+      // { title:"...", outlet:"...", date:"...", desc:"...", url:"https://..." }
     ];
 
     const list = document.getElementById('newsList');
-    if(list){
-      posts.forEach(p=>{
-        const item = document.createElement('div');
-        item.className = 'news-item';
-        item.innerHTML = `
-          <a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
-          <p>${p.source} &middot; ${p.date}<br>${p.note ?? ''}</p>
+    function renderNews(){
+      list.innerHTML = '';
+      news.forEach(item=>{
+        const card = document.createElement('article');
+        card.className='news-card';
+        card.innerHTML = `
+          <a href="${item.url}" target="_blank" rel="noopener">
+            <h4 class="news-title">${item.title}</h4>
+            <div class="news-meta">${item.outlet} · ${item.date}</div>
+            <p class="news-desc">${item.desc}</p>
+          </a>
         `;
-        list.appendChild(item);
+        list.appendChild(card);
       });
     }
+    renderNews();
   </script>
 </body>
 </html>
