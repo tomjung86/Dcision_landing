@@ -7,6 +7,34 @@
   <link rel="stylesheet" href="styles/style.css" />
   <link rel="stylesheet" href="styles/modal.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Toggle styling */
+    .audience-toggle {
+      display: inline-flex;
+      border: 2px solid #585f90;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    .toggle-option {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      background: #fff;
+      color: #585f90;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .toggle-option:not(.active):hover {
+      background: #f3f3f8;
+    }
+    .toggle-option.active {
+      background: #585f90;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
   <div class="page-wrapper">
@@ -59,20 +87,21 @@
         <h1>One trusted engine. Built for you.</h1>
         <p>Please select your path:</p>
 
-        <!-- Toggle buttons -->
-        <div class="toggle-buttons">
-          <button id="consumerBtn" class="btn">I’m a Consumer</button>
-          <button id="businessBtn" class="btn">I’m a Business</button>
+        <!-- Audience Toggle -->
+        <div class="audience-toggle">
+          <button id="consumerBtn" class="toggle-option active">Consumer</button>
+          <button id="businessBtn" class="toggle-option">Business</button>
         </div>
 
         <!-- Consumer Section -->
-        <div id="consumerSection" class="audience-section" style="display:none; margin-top:2rem;">
+        <div id="consumerSection" class="audience-section" style="margin-top:2rem;">
           <h2>For Consumers</h2>
           <p>
             We’re building Dcision™ for shoppers who want clarity, not noise.  
             Help us shape the world’s first decision engine by sharing your input.
           </p>
           <a href="https://survey.dcision.com.au/" class="btn">Take the Survey</a>
+          <button class="btn demo-btn" data-modal-target="demoModal">▶ Watch Consumer Demo</button>
         </div>
 
         <!-- Business Section -->
@@ -116,7 +145,7 @@ Hi, I’d like to request a Dcision™ demo...
     <div class="modal" id="demoModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
-        <h2>Dcision Demo</h2>
+        <h2>Dcision Consumer Demo</h2>
         <video id="dcisionDemoVideo" controls preload="metadata" style="width:100%; height:auto;" poster="img/demo-poster.jpg">
           <source src="video/dcision_demo.mp4" type="video/mp4">
           Sorry, your browser doesn’t support embedded videos.
@@ -158,15 +187,22 @@ Hi, I’d like to request a Dcision™ demo...
     const consumerSection = document.getElementById("consumerSection");
     const businessSection = document.getElementById("businessSection");
 
-    consumerBtn.addEventListener("click", () => {
-      consumerSection.style.display = "block";
-      businessSection.style.display = "none";
-    });
+    function setActive(target) {
+      if (target === "consumer") {
+        consumerBtn.classList.add("active");
+        businessBtn.classList.remove("active");
+        consumerSection.style.display = "block";
+        businessSection.style.display = "none";
+      } else {
+        businessBtn.classList.add("active");
+        consumerBtn.classList.remove("active");
+        businessSection.style.display = "block";
+        consumerSection.style.display = "none";
+      }
+    }
 
-    businessBtn.addEventListener("click", () => {
-      businessSection.style.display = "block";
-      consumerSection.style.display = "none";
-    });
+    consumerBtn.addEventListener("click", () => setActive("consumer"));
+    businessBtn.addEventListener("click", () => setActive("business"));
   </script>
 
   <!-- Pause videos when modals close -->
