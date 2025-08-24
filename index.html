@@ -28,13 +28,6 @@
           <h3 class="subtitle">One trusted verdict — no scrolling, no second-guessing.</h3>
 
           <section>
-            <h3>What It Is</h3>
-            <p>
-              Dcision™ is the world’s first decision engine — a new kind of system that helps people and businesses choose with confidence.
-            </p>
-          </section>
-
-          <section>
             <h3>For Consumers</h3>
             <p>
               One clear, honest recommendation — aligned with your values and backed by facts. No fake reviews, no endless scrolling.
@@ -59,38 +52,39 @@
       </div>
     </div>
 
-    <!-- Main Split Section -->
+    <!-- Main Content -->
     <main>
       <div class="main-content">
         <img src="img/DcisionLogo.svg" alt="Dcision logo large" class="main-logo">
-        <h1>One trusted engine. Two paths.</h1>
-        <p>
-          <strong>Dcision™</strong> is being built for both <em>shoppers</em> and <em>businesses</em>.  
-          Choose your path below.
-        </p>
+        <h1>One trusted engine. Built for you.</h1>
+        <p>Please select your path:</p>
 
-        <div class="split-cta">
-          <!-- Consumers -->
-          <div class="cta-card">
-            <h2>For Consumers</h2>
-            <p>
-              Help shape the world’s first decision engine.  
-              We’re building Dcision™ for people who want clarity, not noise.  
-              Take our short survey to guide us.
-            </p>
-            <a href="https://survey.dcision.com.au/" class="btn">Take the Survey</a>
-          </div>
+        <!-- Toggle buttons -->
+        <div class="toggle-buttons">
+          <button id="consumerBtn" class="btn">I’m a Consumer</button>
+          <button id="businessBtn" class="btn">I’m a Business</button>
+        </div>
 
-          <!-- Businesses -->
-          <div class="cta-card">
-            <h2>For Businesses</h2>
-            <p>
-              Compliance mistakes cost millions. The Dcision™ Compliance Engine dissects claims, flags risks, and surfaces gaps <em>before</em> audits — saving you time, money, and reputation.
-              Avoid products being pulled from shelves. Get clarity before it’s too late.
-            </p>
-            <button class="btn demo-btn" data-modal-target="businessVideoModal">▶ Watch Business Video</button>
-            <button class="btn demo-btn" data-modal-target="contactModal">Request a Demo</button>
-          </div>
+        <!-- Consumer Section -->
+        <div id="consumerSection" class="audience-section" style="display:none; margin-top:2rem;">
+          <h2>For Consumers</h2>
+          <p>
+            We’re building Dcision™ for shoppers who want clarity, not noise.  
+            Help us shape the world’s first decision engine by sharing your input.
+          </p>
+          <a href="https://survey.dcision.com.au/" class="btn">Take the Survey</a>
+        </div>
+
+        <!-- Business Section -->
+        <div id="businessSection" class="audience-section" style="display:none; margin-top:2rem;">
+          <h2>For Businesses</h2>
+          <p>
+            Compliance mistakes cost millions. The Dcision™ Compliance Engine dissects claims, flags risks, 
+            and highlights gaps <em>before</em> audits — saving you time, money, and reputation.  
+            Avoid products being pulled from shelves. Get clarity before it’s too late.
+          </p>
+          <button class="btn demo-btn" data-modal-target="businessVideoModal">▶ Watch Business Video</button>
+          <button class="btn demo-btn" data-modal-target="contactModal">Request a Demo</button>
         </div>
       </div>
     </main>
@@ -118,7 +112,7 @@ Hi, I’d like to request a Dcision™ demo...
       </div>
     </div>
 
-    <!-- Demo Video Modal -->
+    <!-- Consumer Demo Modal -->
     <div class="modal" id="demoModal">
       <div class="modal-content">
         <span class="close-btn" data-modal-close aria-label="Close">&times;</span>
@@ -156,6 +150,24 @@ Hi, I’d like to request a Dcision™ demo...
 
   <script src="scripts/modal.js"></script>
   <script src="scripts/contact.js"></script>
+
+  <!-- Toggle logic -->
+  <script>
+    const consumerBtn = document.getElementById("consumerBtn");
+    const businessBtn = document.getElementById("businessBtn");
+    const consumerSection = document.getElementById("consumerSection");
+    const businessSection = document.getElementById("businessSection");
+
+    consumerBtn.addEventListener("click", () => {
+      consumerSection.style.display = "block";
+      businessSection.style.display = "none";
+    });
+
+    businessBtn.addEventListener("click", () => {
+      businessSection.style.display = "block";
+      consumerSection.style.display = "none";
+    });
+  </script>
 
   <!-- Pause videos when modals close -->
   <script>
